@@ -24,3 +24,13 @@
 /Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/VoiceScheduling.Api.genruntimeconfig.cache
 /Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/ref/VoiceScheduling.Api.dll
 /Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/VoiceScheduling.Api.sourcelink.json
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/bin/Debug/net8.0/Google.Apis.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/bin/Debug/net8.0/Google.Apis.Auth.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/bin/Debug/net8.0/Google.Apis.Calendar.v3.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/bin/Debug/net8.0/Google.Apis.Core.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/bin/Debug/net8.0/System.CodeDom.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/bin/Debug/net8.0/System.Management.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Management.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/VoiceScheduling.Api.csproj.AssemblyReference.cache
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/VoiceSch.A66BAC9E.Up2Date

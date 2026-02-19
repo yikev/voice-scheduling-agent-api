@@ -1,4 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,23 +47,109 @@ app.MapPost("/availability", ([FromBody] AvailabilityRequest req) =>
 });
 
 // POST /book
-app.MapPost("/book", ([FromBody] BookRequest req) =>
+// POST /book  (creates a real Google Calendar event)
+app.MapPost("/book", async ([FromBody] BookRequest req) =>
 {
-    // Dummy booking confirmation (later: create Google Calendar event here)
-    return Results.Ok(new
+    // Validate + parse times
+    if (string.IsNullOrWhiteSpace(req.Name))
+        return Results.BadRequest(new { ok = false, error = "Name is required." });
+
+    if (!TryParseUtc(req.StartUtc, out var startUtc) || !TryParseUtc(req.EndUtc, out var endUtc))
+        return Results.BadRequest(new { ok = false, error = "StartUtc/EndUtc must be ISO-8601 UTC like 2026-02-19T19:00:00Z" });
+
+    if (endUtc <= startUtc)
+        return Results.BadRequest(new { ok = false, error = "EndUtc must be after StartUtc." });
+
+    // Load secrets from Render env vars
+    var clientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+    var clientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+    var refreshToken = Environment.GetEnvironmentVariable("GOOGLE_REFRESH_TOKEN");
+    var calendarId = Environment.GetEnvironmentVariable("GOOGLE_CALENDAR_ID");
+    var tz = Environment.GetEnvironmentVariable("GOOGLE_TIMEZONE") ?? (req.Timezone ?? "America/Vancouver");
+
+    if (string.IsNullOrWhiteSpace(clientId) ||
+        string.IsNullOrWhiteSpace(clientSecret) ||
+        string.IsNullOrWhiteSpace(refreshToken) ||
+        string.IsNullOrWhiteSpace(calendarId))
     {
-        ok = true,
-        message = "Booked (dummy)",
-        bookingId = Guid.NewGuid(),
-        confirmed = new
-        {
-            name = req.Name,
-            title = req.Title ?? "Meeting",
-            start = req.StartUtc,
-            end = req.EndUtc
-        }
+        return Results.Problem(
+            title: "Server not configured",
+            detail: "Missing one or more of GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, GOOGLE_CALENDAR_ID."
+        );
+    }
+
+    // Build Google credential using refresh token
+    var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+    {
+        ClientSecrets = new ClientSecrets { ClientId = clientId, ClientSecret = clientSecret },
+        Scopes = new[] { CalendarService.Scope.CalendarEvents }
     });
+
+    var credential = new UserCredential(flow, "demo-user", new TokenResponse { RefreshToken = refreshToken });
+
+    var calendar = new CalendarService(new BaseClientService.Initializer
+    {
+        HttpClientInitializer = credential,
+        ApplicationName = "voice-scheduling-agent"
+    });
+
+    var title = string.IsNullOrWhiteSpace(req.Title)
+        ? $"Meeting with {req.Name}"
+        : req.Title;
+
+    var ev = new Event
+    {
+        Summary = title,
+        Description = $"Booked via deployed Voice Scheduling Agent demo. Name: {req.Name}",
+        Start = new EventDateTime { DateTime = startUtc, TimeZone = "UTC" },
+        End = new EventDateTime { DateTime = endUtc, TimeZone = "UTC" }
+    };
+
+    try
+    {
+        var created = await calendar.Events.Insert(ev, calendarId).ExecuteAsync();
+
+        return Results.Ok(new
+        {
+            ok = true,
+            message = "Booked",
+            bookingId = created.Id,
+            htmlLink = created.HtmlLink,
+            confirmed = new
+            {
+                name = req.Name,
+                title,
+                start = startUtc,
+                end = endUtc,
+                timezone = tz
+            }
+        });
+    }
+    catch (Exception ex)
+    {
+        // Keep the error message lightweight (don’t leak secrets)
+        return Results.Problem(title: "Google Calendar booking failed", detail: ex.Message);
+    }
 });
+
+static bool TryParseUtc(string isoUtc, out DateTime utc)
+{
+    // Always assign out param first to satisfy the compiler.
+    utc = default;
+
+    // Parse an ISO-8601 datetime string (with Z or an offset) and normalize to UTC.
+    if (!DateTimeOffset.TryParse(
+            isoUtc,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+            out var dto))
+    {
+        return false;
+    }
+
+    utc = dto.UtcDateTime;
+    return utc != default;
+}
 
 app.Run();
 
