@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "BaH0vIBj9rQ/2Y0xvLY3zTxl3UfJZIUT4af9H7yFocU=",
+  "Source": "VoiceScheduling.Api",
+  "BasePath": "_content/VoiceScheduling.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
