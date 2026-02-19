@@ -81,3 +81,64 @@ Events are created in a dedicated demo Google Calendar owned by the developer.
 Evaluator access to the calendar account is not required. Successful bookings are verifiable through:
 	•	Tool response logs in the web demo
 	•	The included demonstration video (if provided)
+Backend Endpoints
+
+GET /health
+
+Health check endpoint.
+
+GET /now
+
+Returns current time context used for resolving relative date expressions.
+
+Example response:
+
+{
+  "utc": "2026-02-19T07:47:17Z",
+  "timezone": "America/Vancouver",
+  "local": "2026-02-18T23:47:17",
+  "localDate": "2026-02-18",
+  "localTime": "23:47:17"
+}
+
+POST /book
+
+Creates a real Google Calendar event.
+
+Example request:
+
+{
+  "name": "Kevin Test",
+  "title": "Demo Meeting",
+  "startUtc": "2026-02-19T23:00:00Z",
+  "endUtc": "2026-02-20T00:00:00Z",
+  "timezone": "America/Vancouver"
+}
+
+Demonstration
+
+A short Loom video demonstrating:
+	•	Voice interaction
+	•	Tool invocation
+	•	Successful booking
+	•	Event appearing in Google Calendar
+
+(Insert Loom link here if submitting.)
+
+⸻
+
+Technology Stack
+	•	.NET 8 Minimal API
+	•	Google Calendar API
+	•	OAuth 2.0
+	•	Vapi (Voice + LLM orchestration)
+	•	Render (Cloud deployment)
+
+⸻
+
+Assignment Requirements Covered
+	•	Initiates a voice conversation
+	•	Collects name, date/time, and optional title
+	•	Confirms meeting details
+	•	Creates a real calendar event
+	•	Deployed and publicly accessible via hosted URL
