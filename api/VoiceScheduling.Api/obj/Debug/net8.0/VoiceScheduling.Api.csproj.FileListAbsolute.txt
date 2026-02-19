@@ -23,3 +23,4 @@
 /Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/VoiceScheduling.Api.pdb
 /Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/VoiceScheduling.Api.genruntimeconfig.cache
 /Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/ref/VoiceScheduling.Api.dll
+/Users/kevinyi/Documents/voice-scheduling-agent-api/api/VoiceScheduling.Api/obj/Debug/net8.0/VoiceScheduling.Api.sourcelink.json
