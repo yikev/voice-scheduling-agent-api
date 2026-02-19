@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VoiceScheduling.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b9ccacbc96c9776559613c644c6d59afd9ffc70")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e5dde1359ffc57ec749fabddb8fc29360a67b5af")]
 [assembly: System.Reflection.AssemblyProductAttribute("VoiceScheduling.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VoiceScheduling.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

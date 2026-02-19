@@ -30,6 +30,24 @@ app.MapGet("/health", () =>
     });
 });
 
+// GET /now
+// Returns current time context for the assistant (used to resolve relative dates like "tomorrow")
+app.MapGet("/now", () =>
+{
+    var utcNow = DateTime.UtcNow;
+    var tz = GetPacificTimeZone();
+    var localNow = TimeZoneInfo.ConvertTimeFromUtc(utcNow, tz);
+
+    return Results.Ok(new
+    {
+        utc = utcNow.ToString("o"),
+        timezone = tz.Id,
+        local = localNow.ToString("o"),
+        localDate = localNow.ToString("yyyy-MM-dd"),
+        localTime = localNow.ToString("HH:mm:ss")
+    });
+});
+
 // POST /availability
 app.MapPost("/availability", ([FromBody] AvailabilityRequest req) =>
 {
@@ -46,7 +64,6 @@ app.MapPost("/availability", ([FromBody] AvailabilityRequest req) =>
     });
 });
 
-// POST /book
 // POST /book  (creates a real Google Calendar event)
 app.MapPost("/book", async ([FromBody] BookRequest req) =>
 {
@@ -149,6 +166,31 @@ static bool TryParseUtc(string isoUtc, out DateTime utc)
 
     utc = dto.UtcDateTime;
     return utc != default;
+}
+
+static TimeZoneInfo GetPacificTimeZone()
+{
+    // Render runs on Linux where IANA IDs work. Provide fallbacks.
+    var candidates = new[]
+    {
+        "America/Vancouver",
+        "America/Los_Angeles",
+        "Canada/Pacific"
+    };
+
+    foreach (var id in candidates)
+    {
+        try
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById(id);
+        }
+        catch
+        {
+            // try next
+        }
+    }
+
+    return TimeZoneInfo.Utc;
 }
 
 app.Run();
