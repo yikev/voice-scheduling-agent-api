@@ -4,6 +4,17 @@ A fully deployed, real-time voice assistant that collects meeting details and cr
 
 This project demonstrates end-to-end voice orchestration, LLM tool calling, OAuth-secured Google Calendar integration, and cloud deployment.
 
+## Demonstration
+
+A short demonstration video shows:
+
+- Voice interaction
+- Tool invocation
+- Successful booking
+- Event appearing in Google Calendar
+
+Loom link: <INSERT_LINK_HERE>
+
 ## Live Demo
 
 **Voice Agent (Vapi Hosted Link)**  
