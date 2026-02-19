@@ -1,0 +1,35 @@
+# =========================
+# .NET build folders
+# =========================
+bin/
+obj/
+
+# =========================
+# User-specific files
+# =========================
+*.user
+*.suo
+*.userprefs
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# macOS
+# =========================
+.DS_Store
+
+# =========================
+# OAuth / Secrets
+# =========================
+google-token-gen/oauth-client.json
+google-token-gen/token-store/
+token-store/
+
+# =========================
+# Environment files
+# =========================
+.env
+.env.*
