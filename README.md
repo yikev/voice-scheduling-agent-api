@@ -52,7 +52,7 @@ The entire system is deployed and publicly accessible.
 
 Successful tool calls and responses are visible in the Vapi web demo interface.
 
-> Note: Events are created in a dedicated demo Google Calendar owned by the developer. Access to the calendar account is not required for evaluation.
+> Note: Events are created in a dedicated demo Google Calendar owned by the developer.
 
 ## Architecture
 
