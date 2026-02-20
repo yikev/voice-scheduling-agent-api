@@ -13,7 +13,7 @@ A short demonstration video shows:
 - Successful booking
 - Event appearing in Google Calendar
 
-Loom link: <INSERT_LINK_HERE>
+Loom link: https://www.loom.com/share/6dfccf83f4da406cb37c7e388052b3d3
 
 ## Live Demo
 
